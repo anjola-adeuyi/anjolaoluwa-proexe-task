@@ -1,7 +1,10 @@
 import React from 'react';
+import { Button } from 'antd';
 
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+  return <div>
+    <Button type="primary">Button</Button>
+  </div>;
 };
 
 export default Dashboard;

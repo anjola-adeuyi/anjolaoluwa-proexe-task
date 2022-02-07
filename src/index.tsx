@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import 'antd/dist/antd.css';
 
 import App from './App';
 import store from './store/store';
@@ -11,4 +12,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-
