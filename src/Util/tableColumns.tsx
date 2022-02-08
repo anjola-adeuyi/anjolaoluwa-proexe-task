@@ -1,9 +1,7 @@
 import { Button, Modal, Space } from "antd";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { Address } from "../models/userModel"
-import { userActions } from "../store";
 
 const { confirm } = Modal;
 
@@ -12,6 +10,9 @@ export const columns = [
     title: 'Id',
     dataIndex: 'id',
     key: 'id',
+    sorter: {
+      compare: (a: { id: any; }, b: { id: any; }) => a.id - b.id
+    },
   },
   {
     title: 'Name',
@@ -22,9 +23,7 @@ export const columns = [
     title: 'Username',
     dataIndex: 'username',
     key: 'username',
-    sorter: {
-      compare: (a: { username: any; }, b: { username: any; }) => a.username - b.username
-    },
+    sorter: (a: { username: string | any[]; }, b: { username: string | any[]; }) => a.username.length - b.username.length,
   },
   {
     title: 'Email',
@@ -75,14 +74,13 @@ export const data = [
 ];
 
 const HandleDelete = (id: number) => {
-  const dispatch = useDispatch();
+
   console.log(id);
   confirm({
     title: 'Delete',
     content: 'Are you sure you want to delete this user',
     onOk() {
       return new Promise((resolve, reject) => {
-        dispatch(userActions.DeleteUser(id));
         setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
       }).catch(() => console.log('Oops errors!'));
     },
