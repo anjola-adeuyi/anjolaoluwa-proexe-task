@@ -29,7 +29,8 @@ const EditUserPage = () => {
 
   const [form] = Form.useForm();
 
-  const matchUser = data.find( user => user.id === parseInt(id as string))
+  const matchUser = data.find( user => user.id === parseInt(id as string));
+  const matchUserID = matchUser?.id;
 
   console.log(matchUser);
 
@@ -51,7 +52,7 @@ const EditUserPage = () => {
     try {
       console.log('Success:', values);
 
-      const checkEmail = data.find( user => user.email === values.email && user.id !== values.id);
+      const checkEmail = data.find( user => user.email === values.email && user.id !== matchUserID);
 
       if (!values.name || !values.email) {
         return openErrorNotification('topLeft', 'Input Field is empty!');
