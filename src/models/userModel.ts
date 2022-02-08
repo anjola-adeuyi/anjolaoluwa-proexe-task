@@ -34,3 +34,10 @@ export interface AddedUser {
   name: string;
   username: string;
 }
+
+export interface EditedUser {
+  id: number;
+  email : string;
+  name: string;
+  username: string;
+}

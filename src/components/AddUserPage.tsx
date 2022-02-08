@@ -73,9 +73,7 @@ const AddUserPage = () => {
   const handleSubmit = async (e: React.SyntheticEvent ) => {
     e.preventDefault();
 
-    try {
-      const checkValues = await form.validateFields();
-      setValues(checkValues);
+    const successSubmit = async() => {
       console.log('Success:', values);
 
       const checkEmail = data.find( user => user.email === values.email);
@@ -92,6 +90,12 @@ const AddUserPage = () => {
       openSuccessNotification('topRight'); 
 
       navigate("/");
+    }
+    try {
+      const checkValues = await form.validateFields();
+      await setValues(checkValues);
+
+      await successSubmit();
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
       openErrorNotification('topLeft', 'Enter valid values in required fields');

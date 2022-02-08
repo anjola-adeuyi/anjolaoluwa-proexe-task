@@ -1,6 +1,6 @@
 import { Button, Space } from "antd";
-import { ReactChild, ReactFragment, ReactPortal } from "react";
 import { Link } from "react-router-dom";
+import ModalPopUp from "../components/ModalPopUp";
 import { Address } from "../models/userModel"
 
 export const columns = [
@@ -40,7 +40,7 @@ export const columns = [
   {
     title: 'Edit',
     key: 'id',
-    render: (text: any, record: { id: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; }) => (
+    render: (text: any, record: { id:  number }) => (
       <Space size="middle">
         <Link to={`/edit/${record.id}`}>
           <Button type="primary"  style={{ backgroundColor: 'rgb(255 193 6)', borderColor: 'rgb(255 193 6)', borderRadius: '6px' }}>edit</Button>
@@ -51,9 +51,9 @@ export const columns = [
   {
     title: 'Delete',
     key: 'delete',
-    render: () => (
+    render: (text: any, record: { id: number ; }) => (
       <Space size="middle">
-        <Button type="primary" danger style={{ borderRadius: '6px' }}>delete</Button>
+        <Button type="primary" danger style={{ borderRadius: '6px' }} onClick={() => handleClick(record.id)}>delete</Button>
       </Space>
     ),
   },
@@ -69,3 +69,10 @@ export const data = [
       city: 'NYC',
     },
 ];
+
+const handleClick = (id: number) => {
+  console.log(id);
+  return (
+    <ModalPopUp />
+  )
+}

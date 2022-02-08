@@ -1,4 +1,4 @@
-import { AddedUser, User } from "../../models/userModel";
+import { AddedUser, EditedUser, User } from "../../models/userModel";
 import ActionType from "./action-types";
 
 interface GetUserRequestAction {
@@ -20,8 +20,23 @@ interface AddUser {
   payload: AddedUser
 }
 
+interface EditUser {
+  type: ActionType.EDIT_USER;
+  payload: {
+    id: number,
+    values: EditedUser,
+  }
+}
+
+interface DeleteUser {
+  type: ActionType.DELETE_USER;
+  payload: number
+}
+
 export type Action = 
   | GetUserRequestAction 
   | GetUserSuccessAction 
   | GetUserFailAction
   | AddUser
+  | EditUser
+  | DeleteUser

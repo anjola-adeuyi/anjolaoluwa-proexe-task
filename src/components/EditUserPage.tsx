@@ -2,7 +2,7 @@ import { Button, Card, Form, Input, notification } from 'antd';
 import { NotificationPlacement } from 'antd/lib/notification';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from '../hooks/useTypedSelector';
 import { userActions } from '../store';
 
@@ -21,6 +21,7 @@ const formItemLayout = {
 };
 
 interface ValuesType {
+  id: number;
   email : string;
   name: string;
   username: string;
@@ -34,7 +35,7 @@ const EditUserPage = () => {
   const navigate = useNavigate();
 
   const [form] = Form.useForm();
-  const [values, setValues] = useState<ValuesType>({email: '', name: '', username: ''});
+  const [values, setValues] = useState<ValuesType>({id: 0, email: '', name: '', username: ''});
 
   const matchUser = data.find( user => user.id === parseInt(id as string))
 
@@ -42,11 +43,10 @@ const EditUserPage = () => {
 
   useEffect(() => {
     if (matchUser) {
-      let matchValue = {email: 'Jola', name: '', username: '' }
-      setValues(matchValue);
+      setValues(matchUser);
       form.setFieldsValue(matchUser);
     }
-  }, [])
+  }, [matchUser, form])
 
   useEffect(() => {
     form.validateFields(['name']);
@@ -54,7 +54,7 @@ const EditUserPage = () => {
 
   const openSuccessNotification = (placement: NotificationPlacement | undefined) => {
     notification.success({
-      message: 'User added successfully',
+      message: 'User Edited successfully',
       placement,
     });
   };
@@ -74,7 +74,7 @@ const EditUserPage = () => {
       setValues(checkValues);
       console.log('Success:', values);
 
-      const checkEmail = data.find( user => user.email === values.email);
+      const checkEmail = data.find( user => user.email === values.email && user.id !== values.id);
 
       if (!values.name || !values.email) {
         return openErrorNotification('topLeft', 'Input Field is empty!');
@@ -84,7 +84,7 @@ const EditUserPage = () => {
         return openErrorNotification('topLeft', 'This email already exists!');
       }
 
-      dispatch(userActions.AddUser(values));
+      dispatch(userActions.EditUser( values.id, values));
       openSuccessNotification('topRight'); 
 
       navigate("/");
@@ -108,8 +108,9 @@ const EditUserPage = () => {
 
   return (<div>
     <Card loading={loading} title="Form" className={styles.card}>
-
-      <Form form={form} initialValues={matchUser} name="dynamic_rule">
+      {matchUser ? 
+        (
+          <Form form={form} initialValues={matchUser} name="dynamic_rule">
         <Form.Item
           {...formItemLayout}
           name="name"
@@ -167,6 +168,16 @@ const EditUserPage = () => {
           </Button>
         </Form.Item>
       </Form>
+        ) : (
+          <>
+          <Form form={form} name="dynamic_rule">
+            <h1>Contact with id - {id} does not exist</h1>
+            <Link to="/"> <Button style={{width: '100%'}} type="primary">Back to Dashboard</Button> </Link>
+          </Form>
+          </>
+        )
+      }
+      
 
     </Card>
   </div>);

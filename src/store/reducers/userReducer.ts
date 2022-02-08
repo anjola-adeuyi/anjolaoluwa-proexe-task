@@ -1,4 +1,4 @@
-import { AddedUser, User } from "../../models/userModel";
+import { AddedUser, EditedUser, User } from "../../models/userModel";
 import { Action } from "../actions";
 import ActionType from "../actions/action-types";
 
@@ -24,12 +24,21 @@ const userReducer = (state: UserState = initialState, action: Action): UserState
       return { loading: false, error: action.payload, data: [] }
     case ActionType.ADD_USER:
       return { loading: false, error: null, data: addUser(state.data, action.payload) }
+    case ActionType.EDIT_USER:
+      return { loading: false, error: null, data: editUser(state.data, action.payload.values, action.payload.id) }
+    case ActionType.DELETE_USER:
+      return { loading: false, error: null, data: deleteUser(state.data, action.payload) }
     default:
       return state;
   }
 }
 
+export default userReducer;
+
+
+
 // helper functions for Typescript type matching and mocking api types and index
+
 const addUser = ( data: User[], values: AddedUser ): User[] => {
   const id = Math.max(0, Math.max(...data.map(({ id }) => id))) + 1;
 
@@ -66,4 +75,18 @@ const addUser = ( data: User[], values: AddedUser ): User[] => {
     }
   }, ...data ]}
 
-export default userReducer;
+
+const editUser = ( data: User[], values: EditedUser, id: number ) => data.map(user => ({
+  ...user,
+  key: user.id === id ? id : user.id,
+  id: user.id === id ? id : user.id,
+  email: user.id === id ? values.email : user.email,
+  name: user.id === id ? values.name : user.name,
+  username: user.id === id ? values.username : user.username,
+}))
+
+const deleteUser = (data: User[], id: number): User[] =>
+data.filter((user) => user.id !== id);
+
+
+
