@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from '../hooks/useTypedSelector';
+import { userActions } from '../store';
 
 import styles from './AddUserPage.module.css';
 import ErrorPage from './ErrorPage';
@@ -74,6 +75,8 @@ const AddUserPage = () => {
     if (checkEmail) {
       return 
     }
+
+    dispatch(userActions.AddUser(values));
 
     navigate("/");
   }

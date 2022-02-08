@@ -28,3 +28,9 @@ export interface User {
   website: string;
   company: Company;
 }
+
+export interface AddedUser {
+  email : string;
+  name: string;
+  username: string;
+}

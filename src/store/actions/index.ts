@@ -1,4 +1,4 @@
-import { User } from "../../models/userModel";
+import { AddedUser, User } from "../../models/userModel";
 import ActionType from "./action-types";
 
 interface GetUserRequestAction {
@@ -15,7 +15,13 @@ interface GetUserFailAction {
   payload: string;
 }
 
+interface AddUser {
+  type: ActionType.ADD_USER;
+  payload: AddedUser
+}
+
 export type Action = 
   | GetUserRequestAction 
   | GetUserSuccessAction 
-  | GetUserFailAction;
+  | GetUserFailAction
+  | AddUser

@@ -2,7 +2,7 @@ import axios from "axios";
 import { Dispatch } from "redux";
 
 import { Action } from "..";
-import { User } from "../../../models/userModel";
+import { AddedUser, User } from "../../../models/userModel";
 import ActionType from "../action-types";
 
 const url = "https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data";
@@ -26,3 +26,8 @@ export const getUsers = () => async (dispatch: Dispatch<Action>) => {
     })
   }
 }
+
+export const AddUser = (values: AddedUser): Action => ({
+  type: ActionType.ADD_USER,
+  payload: values
+})
