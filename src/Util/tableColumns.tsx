@@ -1,4 +1,6 @@
 import { Button, Space } from "antd";
+import { ReactChild, ReactFragment, ReactPortal } from "react";
+import { Link } from "react-router-dom";
 import { Address } from "../models/userModel"
 
 export const columns = [
@@ -38,9 +40,11 @@ export const columns = [
   {
     title: 'Edit',
     key: 'id',
-    render: () => (
+    render: (text: any, record: { id: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; }) => (
       <Space size="middle">
-        <Button type="primary"  style={{ backgroundColor: 'rgb(255 193 6)', borderColor: 'white', borderRadius: '6px' }}>edit</Button>
+        <Link to={`/edit/${record.id}`}>
+          <Button type="primary"  style={{ backgroundColor: 'rgb(255 193 6)', borderColor: 'rgb(255 193 6)', borderRadius: '6px' }}>edit</Button>
+        </Link>
       </Space>
     ),
   },

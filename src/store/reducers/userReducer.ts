@@ -50,7 +50,7 @@ const addUser = ( data: User[], values: AddedUser ): User[] => {
     address: {
     street: "",
     suite: "",
-    city: "",
+    city: "NYC",
     zipcode: "",
     geo: {
       lat: "",

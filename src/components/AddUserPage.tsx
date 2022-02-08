@@ -1,4 +1,5 @@
-import { Button, Card, Form, Input, Checkbox } from 'antd';
+import { Button, Card, Form, Input, Checkbox, notification } from 'antd';
+import { NotificationPlacement } from 'antd/lib/notification';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -55,30 +56,46 @@ const AddUserPage = () => {
     setCheckUser(e.target.checked);
   };
 
+  const openSuccessNotification = (placement: NotificationPlacement | undefined) => {
+    notification.success({
+      message: 'User added successfully',
+      placement,
+    });
+  };
+  
+  const openErrorNotification = (placement: NotificationPlacement | undefined, msg: string) => {
+    notification.error({
+      message: msg,
+      placement,
+    });
+  };
+
   const handleSubmit = async (e: React.SyntheticEvent ) => {
     e.preventDefault();
 
     try {
-      const values = await form.validateFields();
-      setValues(values);
+      const checkValues = await form.validateFields();
+      setValues(checkValues);
       console.log('Success:', values);
+
+      const checkEmail = data.find( user => user.email === values.email);
+
+      if (!values.name || !values.email) {
+        return openErrorNotification('topLeft', 'Input Field is empty!');
+      }
+
+      if (checkEmail) {
+        return openErrorNotification('topLeft', 'This email already exists!');
+      }
+
+      dispatch(userActions.AddUser(values));
+      openSuccessNotification('topRight'); 
+
+      navigate("/");
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
+      openErrorNotification('topLeft', 'Enter valid values in required fields');
     }
-
-    const checkEmail = data.find( user => user.email === values.email);
-
-    if (!values.name || !values.email) {
-      return
-    }
-
-    if (checkEmail) {
-      return 
-    }
-
-    dispatch(userActions.AddUser(values));
-
-    navigate("/");
   }
 
   const handleCancel = () => {
