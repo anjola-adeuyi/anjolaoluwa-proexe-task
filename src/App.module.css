@@ -1,7 +1,22 @@
 .container {
   display: flex;
-  align-items: center;
   justify-content: center;
+  width: 100%;
+  max-width: 72rem;
+  min-height: 100vh;
+  margin-inline: auto;
+  flex-direction: column;
+  padding: 25px;
+}
+
+.title {
+  margin-bottom: 25px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.link {
+  color: #333;
 }
 
 .Error {

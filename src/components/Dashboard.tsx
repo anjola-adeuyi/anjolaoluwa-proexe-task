@@ -28,8 +28,7 @@ const Dashboard: FC<DashboardProp> = (props) => {
     console.log('params', filters, sorter, extra);
   }
 
-  return (<div className={styles.container}>
-    <h2 className={styles.title}>Dashboard</h2>
+  return (<div>
     <Card loading={loading} title="User list" extra={ <Link to="/add">
       <Button type="primary" style={{ borderRadius: '6px', width: '6rem' }} >  Add new </Button>
     </Link> } className={styles.card}>

@@ -6,7 +6,7 @@ import { useSelector } from './hooks/useTypedSelector';
 import { userActions } from './store';
 import styles from "./App.module.css";
 import ErrorPage from './components/ErrorPage';
-import { Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import AddUserPage from './components/AddUserPage';
 import NotFound from './components/NotFound';
 import EditUserPage from './components/EditUserPage';
@@ -30,6 +30,8 @@ const App: FC = () => {
 
   return (
     <div className={styles.container}>
+      <h2 className={styles.title}>
+        <Link to='/' className={styles.link}> Dashboard </Link></h2>
       <Routes>
         <Route path="/" element={<Dashboard loading={loading} user={data} />} />
         <Route path="/add" element={<AddUserPage />} />
