@@ -32,12 +32,6 @@ const formCheckboxLayout = {
   },
 };
 
-interface ValuesType {
-  email : string;
-  name: string;
-  username: string;
-}
-
 const AddUserPage = () => {
   const dispatch = useDispatch();
   const {loading, error, data} = useSelector(state => state.users);
@@ -46,7 +40,6 @@ const AddUserPage = () => {
 
   const [form] = Form.useForm();
   const [checkUser, setCheckUser] = useState(false);
-  const [values, setValues] = useState<ValuesType>({email: '', name: '', username: ''});
 
   useEffect(() => {
     form.validateFields(['name']);
@@ -70,10 +63,8 @@ const AddUserPage = () => {
     });
   };
 
-  const handleSubmit = async (e: React.SyntheticEvent ) => {
-    e.preventDefault();
-
-    const successSubmit = async() => {
+  const onFinish = async (values: any) => {
+    try {
       console.log('Success:', values);
 
       const checkEmail = data.find( user => user.email === values.email);
@@ -90,17 +81,11 @@ const AddUserPage = () => {
       openSuccessNotification('topRight'); 
 
       navigate("/");
-    }
-    try {
-      const checkValues = await form.validateFields();
-      await setValues(checkValues);
-
-      await successSubmit();
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
       openErrorNotification('topLeft', 'Enter valid values in required fields');
     }
-  }
+  };
 
   const handleCancel = () => {
     navigate("/");
@@ -117,7 +102,7 @@ const AddUserPage = () => {
   return (<div>
     <Card loading={loading} title="Form" className={styles.card}>
 
-      <Form form={form} name="dynamic_rule">
+      <Form form={form} name="dynamic_rule" onFinish={onFinish}>
         <Form.Item
           {...formItemLayout}
           name="name"
@@ -176,7 +161,7 @@ const AddUserPage = () => {
           <Button className={styles.cancel} danger onClick={handleCancel}>
             cancel
           </Button>
-          <Button className={styles.submit} type="primary" onClick={handleSubmit}>
+          <Button className={styles.submit} type="primary"  htmlType="submit">
             Submit
           </Button>
         </Form.Item>

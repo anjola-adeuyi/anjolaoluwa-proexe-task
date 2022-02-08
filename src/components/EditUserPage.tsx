@@ -1,6 +1,6 @@
 import { Button, Card, Form, Input, notification } from 'antd';
 import { NotificationPlacement } from 'antd/lib/notification';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from '../hooks/useTypedSelector';
@@ -20,13 +20,6 @@ const formItemLayout = {
   },
 };
 
-interface ValuesType {
-  id: number;
-  email : string;
-  name: string;
-  username: string;
-}
-
 const EditUserPage = () => {
   const dispatch = useDispatch();
   const {loading, error, data} = useSelector(state => state.users);
@@ -35,22 +28,10 @@ const EditUserPage = () => {
   const navigate = useNavigate();
 
   const [form] = Form.useForm();
-  const [values, setValues] = useState<ValuesType>({id: 0, email: '', name: '', username: ''});
 
   const matchUser = data.find( user => user.id === parseInt(id as string))
 
   console.log(matchUser);
-
-  useEffect(() => {
-    if (matchUser) {
-      setValues(matchUser);
-      form.setFieldsValue(matchUser);
-    }
-  }, [matchUser, form])
-
-  useEffect(() => {
-    form.validateFields(['name']);
-  }, [form]);
 
   const openSuccessNotification = (placement: NotificationPlacement | undefined) => {
     notification.success({
@@ -66,12 +47,8 @@ const EditUserPage = () => {
     });
   };
 
-  const handleSubmit = async (e: React.SyntheticEvent ) => {
-    e.preventDefault();
-
+  const onFinish = async (values: any) => {
     try {
-      const checkValues = await form.validateFields();
-      setValues(checkValues);
       console.log('Success:', values);
 
       const checkEmail = data.find( user => user.email === values.email && user.id !== values.id);
@@ -92,7 +69,7 @@ const EditUserPage = () => {
       console.log('Failed:', errorInfo);
       openErrorNotification('topLeft', 'Enter valid values in required fields');
     }
-  }
+  };
 
   const handleCancel = () => {
     navigate("/");
@@ -110,7 +87,7 @@ const EditUserPage = () => {
     <Card loading={loading} title="Form" className={styles.card}>
       {matchUser ? 
         (
-          <Form form={form} initialValues={matchUser} name="dynamic_rule">
+          <Form form={form} initialValues={matchUser} name="dynamic_rule" onFinish={onFinish}>
         <Form.Item
           {...formItemLayout}
           name="name"
@@ -163,7 +140,7 @@ const EditUserPage = () => {
           <Button className={styles.cancel} danger onClick={handleCancel}>
             cancel
           </Button>
-          <Button className={styles.submit} type="primary" onClick={handleSubmit}>
+          <Button className={styles.submit} type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>

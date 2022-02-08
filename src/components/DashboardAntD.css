@@ -1,5 +1,13 @@
-button .ant-btn .ant-btn-dangerous {
+.ant-btn-dangerous {
   color: #fff !important;
   border-color: #c80a0a;
   background: #c80a0a !important;
+}
+
+.ant-btn {
+  border-radius: 6px !important;
+}
+
+.ant-modal-confirm-confirm .ant-modal-confirm-body > .anticon {
+  color: #c80a0a;
 }
