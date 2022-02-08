@@ -1,60 +1,104 @@
-import { Button, Card, Form, Input } from 'antd';
-import Checkbox from 'antd/lib/checkbox/Checkbox';
+import { Button, Card, Form, Input, Checkbox } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from '../hooks/useTypedSelector';
 
 import styles from './AddUserPage.module.css';
+import ErrorPage from './ErrorPage';
 
 const formItemLayout = {
   labelCol: {
-    // span: 4,
     xs: { span: 24 },
-    sm: { span: 6 },
+    sm: { span: 8 },
   },
   wrapperCol: {
-    // span: 8,
     xs: { span: 24 },
-    sm: { span: 14 },
+    sm: { span: 16 },
   },
 };
-const formTailLayout = {
-  labelCol: {
-    span: 4,
-  },
+const formCheckboxLayout = {
   wrapperCol: {
-    span: 8,
-    offset: 4,
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
   },
 };
 
+interface ValuesType {
+  email : string;
+  name: string;
+  username: string;
+}
+
 const AddUserPage = () => {
+  const dispatch = useDispatch();
+  const {loading, error, data} = useSelector(state => state.users);
+
+  const navigate = useNavigate();
+
   const [form] = Form.useForm();
   const [checkUser, setCheckUser] = useState(false);
-  
+  const [values, setValues] = useState<ValuesType>({email: '', name: '', username: ''});
+
   useEffect(() => {
-    form.validateFields(['nickname']);
+    form.validateFields(['name']);
   }, [checkUser, form]);
 
   const onCheckboxChange = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
     setCheckUser(e.target.checked);
   };
 
-  const onCheck = async () => {
+  const handleSubmit = async (e: React.SyntheticEvent ) => {
+    e.preventDefault();
+
     try {
       const values = await form.validateFields();
+      setValues(values);
       console.log('Success:', values);
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
     }
-  };
+
+    const checkEmail = data.find( user => user.email === values.email);
+
+    if (!values.name || !values.email) {
+      return
+    }
+
+    if (checkEmail) {
+      return 
+    }
+
+    navigate("/");
+  }
+
+  const handleCancel = () => {
+    navigate("/");
+  }
+
+  if (error && data.length === 0) {
+    return (
+      <div className={styles.Error}>
+        <ErrorPage error={error}  />
+      </div>
+    )
+  }
 
   return (<div>
-    <Card title="Form" className={styles.card}>
+    <Card loading={loading} title="Form" className={styles.card}>
 
       <Form form={form} name="dynamic_rule">
         <Form.Item
           {...formItemLayout}
           name="name"
           label="Name"
+          hasFeedback
           rules={[
             {
               required: true,
@@ -62,21 +106,26 @@ const AddUserPage = () => {
             },
           ]}
         >
-          <Input placeholder="Please input your name" />
+          <Input placeholder="Please enter your name" />
         </Form.Item>
 
         <Form.Item
           {...formItemLayout}
           name="email"
           label="Email"
+          hasFeedback
           rules={[
             {
+              type: 'email',
+              message: 'The input is not valid E-mail!',
+            },
+            {
               required: true,
-              message: 'Please input your email address',
+              message: 'Please input your E-mail!',
             },
           ]}
         >
-          <Input placeholder="Please input your email address" />
+          <Input placeholder="Please enter your email" />
         </Form.Item>
 
         <Form.Item
@@ -90,17 +139,20 @@ const AddUserPage = () => {
             },
           ]}
         >
-          <Input placeholder="Please input your username" />
+          <Input placeholder="Please enter your username" />
         </Form.Item>
 
-        <Form.Item {...formTailLayout}>
+        <Form.Item {...formCheckboxLayout}>
           <Checkbox checked={checkUser} onChange={onCheckboxChange}>
-            Username is required
+            Require Username?
           </Checkbox>
         </Form.Item>
 
-        <Form.Item {...formTailLayout}>
-          <Button type="primary" onClick={onCheck}>
+        <Form.Item  className={styles.formButton}>
+          <Button className={styles.cancel} danger onClick={handleCancel}>
+            cancel
+          </Button>
+          <Button className={styles.submit} type="primary" onClick={handleSubmit}>
             Submit
           </Button>
         </Form.Item>

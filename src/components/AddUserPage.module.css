@@ -1,6 +1,34 @@
+.Error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
 .card {
   width: 100%;
   background: #fff;
   box-shadow: 0 25px 50px -12px rgba( 0, 0, 0, 0.25);
   border-radius: 0.5rem;
+}
+
+.formButton {
+  float: right;
+}
+
+.cancel {
+  margin-right: 1rem;
+  border-radius: 6px;
+}
+
+.submit {
+  background: green;
+  border-color: green;
+  border-radius: 6px;
+}
+
+.submit:hover, .submit:focus {
+  background: green;
+  border-color: green;
+  border-radius: 6px;
 }
