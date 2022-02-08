@@ -5,6 +5,7 @@ import styles from './Dashboard.module.css';
 import { User } from '../models/userModel';
 import convertTableData from '../Util/convertTableData';
 import { columns } from '../Util/tableColumns';
+import { Link } from 'react-router-dom';
 
 interface DashboardProp {
   loading: boolean;
@@ -29,8 +30,9 @@ const Dashboard: FC<DashboardProp> = (props) => {
 
   return (<div className={styles.container}>
     <h2 className={styles.title}>Dashboard</h2>
-    <Card loading={loading} title="User list" extra={
-    <Button type="primary" style={{ borderRadius: '6px', width: '6rem' }} >Add new</Button>} className={styles.card}>
+    <Card loading={loading} title="User list" extra={ <Link to="/add">
+      <Button type="primary" style={{ borderRadius: '6px', width: '6rem' }} >  Add new </Button>
+    </Link> } className={styles.card}>
       <Table columns={columns} dataSource={userData} pagination={false} onChange={onChange} scroll={{ x: 'max-content' }} />
     </Card>
   </div>);

@@ -3,3 +3,10 @@
   align-items: center;
   justify-content: center;
 }
+
+.Error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}

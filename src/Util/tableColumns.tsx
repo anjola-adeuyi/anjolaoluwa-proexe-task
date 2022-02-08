@@ -55,7 +55,7 @@ export const columns = [
   },
 ];
 
-const data = [
+export const data = [
     {
       key: '1',
       id: '1',
