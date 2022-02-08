@@ -29,9 +29,10 @@ const formTailLayout = {
 const AddUserPage = () => {
   const [form] = Form.useForm();
   const [checkUser, setCheckUser] = useState(false);
+  
   useEffect(() => {
     form.validateFields(['nickname']);
-  }, [checkUser]);
+  }, [checkUser, form]);
 
   const onCheckboxChange = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
     setCheckUser(e.target.checked);
