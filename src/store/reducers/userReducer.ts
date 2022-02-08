@@ -78,11 +78,11 @@ const addUser = ( data: User[], values: AddedUser ): User[] => {
 
 const editUser = ( data: User[], values: EditedUser, id: number ) => data.map(user => ({
   ...user,
-  key: user.id === id ? id : user.id,
-  id: user.id === id ? id : user.id,
-  email: user.id === id ? values.email : user.email,
-  name: user.id === id ? values.name : user.name,
-  username: user.id === id ? values.username : user.username,
+  key: user.id == id ? id : user.id,
+  id: user.id == id ? id : user.id,
+  email: user.id == id ? values.email : user.email,
+  name: user.id == id ? values.name : user.name,
+  username: user.id == id ? values.username : user.username,
 }))
 
 const deleteUser = (data: User[], id: number): User[] =>

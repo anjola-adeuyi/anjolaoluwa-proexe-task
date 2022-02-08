@@ -1,7 +1,11 @@
-import { Button, Space } from "antd";
+import { Button, Modal, Space } from "antd";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import ModalPopUp from "../components/ModalPopUp";
+
 import { Address } from "../models/userModel"
+import { userActions } from "../store";
+
+const { confirm } = Modal;
 
 export const columns = [
   {
@@ -53,7 +57,7 @@ export const columns = [
     key: 'delete',
     render: (text: any, record: { id: number ; }) => (
       <Space size="middle">
-        <Button type="primary" danger style={{ borderRadius: '6px' }} onClick={() => handleClick(record.id)}>delete</Button>
+        <Button type="primary" danger style={{ borderRadius: '6px' }} onClick={() => HandleDelete(record.id)}>delete</Button>
       </Space>
     ),
   },
@@ -70,9 +74,20 @@ export const data = [
     },
 ];
 
-const handleClick = (id: number) => {
+const HandleDelete = (id: number) => {
+  const dispatch = useDispatch();
   console.log(id);
-  return (
-    <ModalPopUp />
-  )
+  confirm({
+    title: 'Delete',
+    content: 'Are you sure you want to delete this user',
+    onOk() {
+      return new Promise((resolve, reject) => {
+        dispatch(userActions.DeleteUser(id));
+        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+      }).catch(() => console.log('Oops errors!'));
+    },
+    onCancel() {
+      console.log('Cancel');
+    },
+  });
 }

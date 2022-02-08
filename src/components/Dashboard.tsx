@@ -5,7 +5,6 @@ import styles from './Dashboard.module.css';
 import { User } from '../models/userModel';
 import { columns } from '../Util/tableColumns';
 import { Link } from 'react-router-dom';
-import ModalPopUp from './ModalPopUp';
 
 interface DashboardProp {
   loading: boolean;
@@ -25,7 +24,7 @@ const Dashboard: FC<DashboardProp> = (props) => {
     <Card loading={loading} title="User list" extra={ <Link to="/add">
       <Button type="primary" style={{ borderRadius: '6px', width: '6rem' }} >  Add new </Button>
     </Link> } className={styles.card}>
-      <ModalPopUp />
+      
       <Table columns={columns} dataSource={user} pagination={false} onChange={onChange} scroll={{ x: 'max-content' }} />
     </Card>
   </div>);
