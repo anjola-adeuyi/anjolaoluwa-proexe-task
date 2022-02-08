@@ -18,6 +18,7 @@ export interface Company {
 }
 
 export interface User {
+  key: number;
   id: number;
   name: string;
   username: string;

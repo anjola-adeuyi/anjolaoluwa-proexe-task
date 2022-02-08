@@ -11,13 +11,13 @@ const App: FC = () => {
 
   useEffect(() => {
     dispatch(userActions.getUsers());
-  }, []);
+  }, [dispatch]);
 
   const { loading, error, data } = useSelector(state => state.users ); 
 
   return (
     <div className={styles.container}>
-      <Dashboard loading={loading} />
+      <Dashboard loading={loading} user={data} />
     </div>
   );
 }
