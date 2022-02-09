@@ -1,3 +1,7 @@
+.ant-card-body {
+  padding: 10px;
+}
+
 .ant-btn-dangerous {
   color: #fff !important;
   border-color: #c80a0a;
@@ -25,4 +29,8 @@
 
 .ant-table-ping-right:not(.ant-table-has-fix-right) .ant-table-container::after {
   box-shadow: none;
+}
+
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td, .ant-table tfoot > tr > th, .ant-table tfoot > tr > td {
+  padding: 20px 16px; 
 }
