@@ -62,7 +62,7 @@ const EditUserPage = () => {
         return openErrorNotification('topLeft', 'This email already exists!');
       }
 
-      dispatch(userActions.EditUser( values.id, values));
+      dispatch(userActions.EditUser( matchUserID as number, values));
       openSuccessNotification('topRight'); 
 
       navigate("/");

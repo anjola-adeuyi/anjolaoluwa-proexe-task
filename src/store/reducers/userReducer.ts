@@ -25,7 +25,7 @@ const userReducer = (state: UserState = initialState, action: Action): UserState
     case ActionType.ADD_USER:
       return { loading: false, error: null, data: addUser(state.data, action.payload) }
     case ActionType.EDIT_USER:
-      return { loading: false, error: null, data: editUser(state.data, action.payload.values, action.payload.id) }
+      return { loading: false, error: null, data: editUser(state.data, action.payload.id, action.payload.values) }
     case ActionType.DELETE_USER:
       return { loading: false, error: null, data: deleteUser(state.data, action.payload) }
     default:
@@ -76,7 +76,7 @@ const addUser = ( data: User[], values: AddedUser ): User[] => {
   }, ...data ]}
 
 
-const editUser = ( data: User[], values: EditedUser, id: number ) => data.map(user => ({
+const editUser = ( data: User[], id: number, values: EditedUser, ): User[] => data.map(user => ({
   ...user,
   key: user.id === id ? id : user.id,
   id: user.id === id ? id : user.id,
@@ -87,6 +87,3 @@ const editUser = ( data: User[], values: EditedUser, id: number ) => data.map(us
 
 const deleteUser = (data: User[], id: number): User[] =>
 data.filter((user) => user.id !== id);
-
-
-
