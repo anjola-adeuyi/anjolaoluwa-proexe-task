@@ -11,3 +11,10 @@
 .ant-modal-confirm-confirm .ant-modal-confirm-body > .anticon {
   color: #c80a0a;
 }
+
+.ant-table-wrapper {
+  border-radius: 0.5rem;
+  border: 1px solid#e2e8f0;
+  width: 100%;
+  overflow-x: scroll;
+}

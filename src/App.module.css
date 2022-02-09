@@ -19,6 +19,10 @@
   color: #333;
 }
 
+.link:active, .link:hover {
+  color: #333;
+}
+
 .Error {
   display: flex;
   align-items: center;
